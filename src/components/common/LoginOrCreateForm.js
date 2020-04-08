@@ -10,7 +10,7 @@ class LoginOrCreateForm extends Component {
 
     handleRequest() {
         const endpoint = this.props.create ? 'register' : 'login';
-        const payload = { email: this.state.email, password: this.state.password }
+        const payload = { username: this.state.username, password: this.state.password }
 
         if (this.props.create) {
             payload.first_name = this.state.firstName;
@@ -32,14 +32,14 @@ class LoginOrCreateForm extends Component {
     }
 
     state = {
-        email: '',
+        username: '',
         password: '',
         firstName: '',
         lastName: ''
     }
 
-    onEmailChange(text) {
-        this.setState({ email: text });
+    onUsernameChange(text) {
+        this.setState({ username: text });
     }
 
     onPasswordChange(text) {
@@ -114,10 +114,10 @@ class LoginOrCreateForm extends Component {
                 <View style={formContainerStyle}>
                     <View style={fieldStyle}>
                         <TextInput
-                            placeholder="email"
+                            placeholder="username"
                             autoCorrect={false}
                             autoCapitalize="none"
-                            onChangeText={this.onEmailChange.bind(this)}
+                            onChangeText={this.onUsernameChange.bind(this)}
                             style={textInputStyle}
                         />
                     </View>

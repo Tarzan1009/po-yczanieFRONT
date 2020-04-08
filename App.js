@@ -11,7 +11,7 @@ export default class App extends Component {
     );
   }
   componentWillMount() {
-    axios.defaults.baseURL = 'http://192.168.1.4:8000/api';
+    axios.defaults.baseURL = 'http://192.168.1.4:8000/APIlend';
     axios.defaults.timeout = 1500;
   }
 }

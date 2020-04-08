@@ -24,9 +24,10 @@ class Home extends Component {
 
     render() {
         const {buttonContainerStyle} = styles;
+        const { btnTxtStyle } = styles;
         return (
             <View style={buttonContainerStyle}>
-                <Button title="Logout" onPress={this.handleRequest.bind(this)}/>
+                <Button color='#ffffff0d' title="Logout" titleStyle={btnTxtStyle} onPress={this.handleRequest.bind(this)}/>
             </View>
         );
     }
@@ -36,10 +37,13 @@ class Home extends Component {
 const styles = StyleSheet.create({
     buttonContainerStyle: {
         flex: 1,
-        flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: '#121212'
-    }
+        padding: 20,
+        backgroundColor: '#121212',
+    },
+    btnTxtStyle: {
+        fontWeight: 'bold'
+    },
 });
 
 export default Home;
