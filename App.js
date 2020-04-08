@@ -1,22 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import Router from './src/Router';
+import axios from 'axios';
+import StatusBar from 'react-native'
 
-import Regform from "./app/components/Regform";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Regform />
-    </View>
-  );
+export default class App extends Component {
+  render() {
+    return (
+        <Router />
+    );
+  }
+  componentWillMount() {
+    axios.defaults.baseURL = 'http://192.168.1.4:8000/api';
+    axios.defaults.timeout = 1500;
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#121212",
-    paddingLeft: 60,
-    paddingRight: 60
-  },
-});
