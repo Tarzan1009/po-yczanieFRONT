@@ -18,7 +18,7 @@ class LoginOrCreateForm extends Component {
         }
 
         axios
-            .post(`/auth/${endpoint}/`, payload)
+            .post(`auth/${endpoint}/`, payload)
             .then(response => {
                 const { token, user } = response.data;
 
@@ -94,6 +94,9 @@ class LoginOrCreateForm extends Component {
                     Or
                     <Text style={{ color: 'blue' }} onPress={() => Actions.register()}>
                         {' Sign-up'}
+                    </Text>
+                    <Text style={{ color: 'blue' }} onPress={() => Actions.main()}>
+                        {' Home'}
                     </Text>
                 </Text>
             );

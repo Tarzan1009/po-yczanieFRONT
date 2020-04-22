@@ -3,6 +3,8 @@ import { Scene, Stack, Router, Actions } from 'react-native-router-flux';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
+import Friends from './components/Friends';
+import Friend from './components/Friend';
 import { StyleSheet, StatusBar } from 'react-native';
 
 
@@ -43,6 +45,16 @@ const RouterComponent = () => {
                         component={Home}
                         initial
                     />
+                    <Scene
+                        title="Friends"
+                        key="friends"
+                        component={Friends}
+                    />
+                    <Scene
+                        title="Friend"
+                        key="friend"
+                        component={Friend}
+                    />
                 </Stack>
             </Stack>
         </Router>
@@ -51,7 +63,7 @@ const RouterComponent = () => {
 
 const style = StyleSheet.create({
     navBarStyle: {
-        top: StatusBar.currentHeight,
+        // top: StatusBar.currentHeight,
         backgroundColor: '#121212',
     },
     titleStyle: {

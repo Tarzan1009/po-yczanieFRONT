@@ -79,12 +79,6 @@ class Home extends Component {
         });
     }
 
-    // getSum() {
-    //     return axios
-    //         .get('/sum')
-    //         .catch(error => console.log(error))
-    // }
-
     render() {
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
@@ -111,8 +105,8 @@ class Home extends Component {
                 </Text>
                 <Button color='#ffffff0d' title="Logout" titleStyle={btnTxtStyle}
                         onPress={this.handleRequest.bind(this)}/>
-                {/*<Button color='#ffffff0d' title="friends" titleStyle={btnTxtStyle}*/}
-                {/*        onPress={Actions.friends()}/>*/}
+                <Button color='#ffffff0d' title="friends" titleStyle={btnTxtStyle}
+                        onPress={Actions.friends()}/>
             </View>
         );
     }

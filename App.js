@@ -10,8 +10,9 @@ export default class App extends Component {
         <Router />
     );
   }
-  componentWillMount() {
-    axios.defaults.baseURL = 'http://192.168.1.4:8000/APIlend';
-    axios.defaults.timeout = 1500;
+  UNSAFE_componentWillMount() {
+    axios.defaults.baseURL = 'http://192.168.1.4:8000/APIlend/';
+    axios.defaults.timeout = 3000;
+    axios.defaults.headers.common = {'Authorization': `Token c3721e55b603dcea44df0d7cf7f7790a44403f0b`}
   }
 }
