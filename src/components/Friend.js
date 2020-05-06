@@ -9,45 +9,82 @@ class Friend extends Component {
 
     state = {
         friend: {},
+        friendMonDebts: [],
+        friendMonCredits: [],
+        friendSum: {},
+        //friendItemDebts: [],
+        //friendItemCredits: [],
+
+
     };
 
 
     getFriend(user_id) {
         const axios = require('axios');
-        axios.get(`userList/${user_id}`).then(resp => {
-
-            //console.log(resp.data);
+        axios.get(`users/${user_id}`).then(resp => {
             this.setState({friend: resp.data});
-            return resp.data;
-        });
+        }).then(
+            axios.get(`users/${global.userID}/sum/${user_id}`).then(resp => {
+                this.setState({friendSum: resp.data});
+            }).then(
+                axios.get(`users/${global.userID}/monetary_debts/${user_id}`).then(resp => {
+                    this.setState({friendMonDebts: resp.data});
+                }).then(
+                    axios.get(`users/${global.userID}/monetary_credits/${user_id}`).then(resp => {
+                        this.setState({friendMonCredits: resp.data});
+                    })
+                )
+            )
+        );
     }
 
     componentDidMount() {
         this.getFriend(this.props.user_id);
-        console.log(this.props.user_id);
-        //this.state.friends.forEach(this.myFun())
     }
 
 
     render() {
-        const {friend} = this.state;
+        const friend = this.state.friend;
+        const sum = this.state.friendSum;
+        const MonDebts = this.state.friendMonDebts;
+        const MonCredits = this.state.friendMonCredits;
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
 
-            console.log(friend);
-
-
-        const userclicked = (item) => {
-            Actions.friend({user_id: item.user})
+        const monclicked = (item) => {
+            Actions.monetary({debt_id: item.id})
         };
+
         return (
             <View style={buttonContainerStyle}>
                 <Text style={styles.titleText}>
-                    ID = {friend.id}
+                    Nazwa = {friend.username}
                 </Text>
                 <Text style={styles.titleText}>
-                    username = {friend.username}
+                    Suma = {sum.sum}
                 </Text>
+                <FlatList
+                    data={MonDebts}
+                    renderItem={({item}) => (
+                        <TouchableOpacity onPress={() => monclicked(item)}>
+                            <View style={styles.item}>
+                                <Text style={styles.itemText}>{item.date}    {item.amount} zł</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+                <FlatList
+                    data={MonCredits}
+                    renderItem={({item}) => (
+                        <TouchableOpacity onPress={() => monclicked(item)}>
+                            <View style={styles.item}>
+                                <Text style={styles.itemText}>{item.date}    -{item.amount} zł</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                />
 
             </View>
         );

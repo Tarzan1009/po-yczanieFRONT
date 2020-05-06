@@ -16,32 +16,30 @@ class Friends extends Component {
 
     getFriends() {
         const axios = require('axios');
-        axios.get('myFriends').then(resp => {
-            // console.log(resp.data);
-            // console.log(resp.data.length);
+        axios.get(`users/${global.userID}/friends`).then(resp => {
             this.setState({loading: false, friends: resp.data});
-            //resp.forEach(this.myFun);
             return resp.data;
         });
     }
 
-    myFun(item) {
-        // console.log(item.user);
-        this.getFriend(item.user);
+    myFun(input) {
+        const arr = [];
+        for (const element of input) {
+            const user = this.getFriend(element.user);
+        }
+        return arr;
     }
 
     getFriend(user_id) {
         const axios = require('axios');
-        axios.get(`userList/${user_id}`).then(resp => {
-
-            //console.log(resp.data);
-            this.state.friendsUser.push(resp.data);
+        let data = {};
+        return axios.get(`user_list/${user_id}`).then(resp => {
             return resp.data;
         });
     }
 
     componentDidMount() {
-        this.getFriends();
+        const temp = this.getFriends();
         //this.state.friends.forEach(this.myFun())
     }
 
@@ -52,9 +50,10 @@ class Friends extends Component {
         const  { loading, friends, f } = this.state;
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
+        const { data } = this.myFun(friends);
 
         const userclicked = (item) => {
-            Actions.friend({user_id: item.user})
+            Actions.friend({user_id: item.id})
         };
         return (
             <View>
@@ -63,7 +62,7 @@ class Friends extends Component {
                     renderItem={({item}) => (
                         <TouchableOpacity onPress={() => userclicked(item)}>
                             <View style={styles.item}>
-                                <Text style={styles.itemText}>{item.user}</Text>
+                                <Text style={styles.itemText}>{item.username}</Text>
                             </View>
                         </TouchableOpacity>
                     )}

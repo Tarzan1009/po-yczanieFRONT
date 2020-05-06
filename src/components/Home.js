@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Button, StyleSheet, Text} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
-import { FlatList, ActivityIndicator } from 'react-native';
+import {FlatList, ActivityIndicator} from 'react-native';
 
 
 class Home extends Component {
@@ -13,6 +13,7 @@ class Home extends Component {
         sumin: 0,
         countout: 0,
         countin: 0,
+        user: {}
     };
 
     handleRequest() {
@@ -33,61 +34,47 @@ class Home extends Component {
 
     componentDidMount() {
         this.getSum();
-        this.getSumIn();
-        this.getSumOut();
-        this.getCountOut();
-        this.getCountOut();
     }
 
     getSum() {
         const axios = require('axios');
-        axios.get('sum').then(resp => {
+        axios.get(`users/${global.userID}/sum`).then(resp => {
             this.setState({sum: resp.data});
-            return resp.data
-        });
-    }
-
-    getSumOut() {
-        const axios = require('axios');
-        axios.get('creditsMonetarySum').then(resp => {
-            this.setState({sumout: resp.data});
-            return resp.data
-        });
-    }
-
-    getSumIn() {
-        const axios = require('axios');
-        axios.get('debtsMonetarySum').then(resp => {
-            this.setState({sumin: resp.data});
-            return resp.data
-        });
-    }
-
-    getCountIn() {
-        const axios = require('axios');
-        axios.get('debtsItemCount').then(resp => {
-            this.setState({countin: resp.data});
-            return resp.data
-        });
-    }
-
-    getCountOut() {
-        const axios = require('axios');
-        axios.get('creditsItemCount').then(resp => {
-            this.setState({countout: resp.data});
-            return resp.data
-        });
+            console.log(resp.data)
+        }).then(
+            axios.get(`users/${global.userID}/monetary_credits/sum`).then(resp => {
+                this.setState({sumout: resp.data});
+            }).then(
+                axios.get(`users/${global.userID}/monetary_debts/sum`).then(resp => {
+                    this.setState({sumin: resp.data});
+                }).then(
+                    axios.get(`users/${global.userID}/item_debts/count`).then(resp => {
+                        this.setState({countin: resp.data});
+                    }).then(
+                        axios.get(`users/${global.userID}/item_credits/count`).then(resp => {
+                            this.setState({countout: resp.data});
+                        }).then(
+                            axios.get(`users/${global.userID}`).then(resp => {
+                                this.setState({user: resp.data});
+                            })
+                        )
+                    )
+                )
+            )
+        );
     }
 
     render() {
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
-        const {sum, sumout, sumin, countout, countin} = this.state;
-
+        const {sum, sumout, sumin, countout, countin, user} = this.state;
 
 
         return (
             <View style={buttonContainerStyle}>
+                <Text style={styles.titleText}>
+                    User = {user.username}
+                </Text>
                 <Text style={styles.titleText}>
                     Suma = {sum.sum}
                 </Text>
@@ -98,7 +85,7 @@ class Home extends Component {
                     Suma in = {sumin.amount__sum}
                 </Text>
                 <Text style={styles.titleText}>
-                    Przedmioty in = {countout.count}
+                    Przedmioty in = {countin.count}
                 </Text>
                 <Text style={styles.titleText}>
                     Przedmioty out = {countout.count}

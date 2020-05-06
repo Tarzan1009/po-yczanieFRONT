@@ -5,6 +5,7 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Friends from './components/Friends';
 import Friend from './components/Friend';
+import Monetary from "./components/Monetary";
 import { StyleSheet, StatusBar } from 'react-native';
 
 
@@ -54,6 +55,11 @@ const RouterComponent = () => {
                         title="Friend"
                         key="friend"
                         component={Friend}
+                    />
+                    <Scene
+                        title="Monetary"
+                        key="monetary"
+                        component={Monetary}
                     />
                 </Stack>
             </Stack>
