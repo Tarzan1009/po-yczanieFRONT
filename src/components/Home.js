@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, Button, StyleSheet, Text} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
-import {FlatList, ActivityIndicator} from 'react-native';
 
 
 class Home extends Component {
@@ -32,26 +31,38 @@ class Home extends Component {
 
     }
 
+    friends() {
+        Actions.friends();
+    };
+
+    monetary() {
+        Actions.MonetaryList();
+    };
+
+    item() {
+        console.log('items');
+    };
+
+
     componentDidMount() {
         this.getSum();
     }
 
     getSum() {
         const axios = require('axios');
-        axios.get(`users/${global.userID}/sum`).then(resp => {
+        axios.get(`users/${global.userID}/monetary/sum`).then(resp => {
             this.setState({sum: resp.data});
-            console.log(resp.data)
         }).then(
-            axios.get(`users/${global.userID}/monetary_credits/sum`).then(resp => {
+            axios.get(`users/${global.userID}/monetary/credits/sum`).then(resp => {
                 this.setState({sumout: resp.data});
             }).then(
-                axios.get(`users/${global.userID}/monetary_debts/sum`).then(resp => {
+                axios.get(`users/${global.userID}/monetary/debts/sum`).then(resp => {
                     this.setState({sumin: resp.data});
                 }).then(
-                    axios.get(`users/${global.userID}/item_debts/count`).then(resp => {
+                    axios.get(`users/${global.userID}/item/debts/count`).then(resp => {
                         this.setState({countin: resp.data});
                     }).then(
-                        axios.get(`users/${global.userID}/item_credits/count`).then(resp => {
+                        axios.get(`users/${global.userID}/item/credits/count`).then(resp => {
                             this.setState({countout: resp.data});
                         }).then(
                             axios.get(`users/${global.userID}`).then(resp => {
@@ -64,36 +75,44 @@ class Home extends Component {
         );
     }
 
+
     render() {
-        const {buttonContainerStyle} = styles;
+        const {ContainerStyle} = styles;
         const {btnTxtStyle} = styles;
         const {sum, sumout, sumin, countout, countin, user} = this.state;
 
 
         return (
-            <View style={buttonContainerStyle}>
-                <Text style={styles.titleText}>
-                    User = {user.username}
-                </Text>
-                <Text style={styles.titleText}>
-                    Suma = {sum.sum}
-                </Text>
-                <Text style={styles.titleText}>
-                    Suma out = {sumout.amount__sum}
-                </Text>
-                <Text style={styles.titleText}>
-                    Suma in = {sumin.amount__sum}
-                </Text>
-                <Text style={styles.titleText}>
-                    Przedmioty in = {countin.count}
-                </Text>
-                <Text style={styles.titleText}>
-                    Przedmioty out = {countout.count}
-                </Text>
-                <Button color='#ffffff0d' title="Logout" titleStyle={btnTxtStyle}
-                        onPress={this.handleRequest.bind(this)}/>
-                <Button color='#ffffff0d' title="friends" titleStyle={btnTxtStyle}
-                        onPress={Actions.friends()}/>
+            <View style={ContainerStyle}>
+                <View style={styles.sumStyle}>
+                    <Text style={styles.titleTextUser}>
+                        {user.username}
+                    </Text>
+                    <Text style={styles.titleText}>
+                        Suma: {sum.sum}
+                    </Text>
+                    <Text style={styles.titleText}>
+                        Suma out: {sumout.amount__sum} Suma in: {sumin.amount__sum}
+                    </Text>
+                    <Text style={styles.titleText}>
+                        Przedmioty in: {countin.count} Przedmioty out: {countout.count}
+                    </Text>
+                </View>
+                <View style={styles.buttonContainerStyle}>
+                    <Button color='black' title="friends"
+                            onPress={this.friends.bind(this)}/>
+                    <View><Text/></View>
+                    <Button color='black' title="money"
+                            onPress={this.monetary.bind(this)}/>
+                    <View><Text/></View>
+                    <Button color='black' title="items" disabled
+                            onPress={this.item.bind(this)}/>
+                    <View><Text/></View>
+                    <Button color='black' title="Logout"
+                            onPress={this.handleRequest.bind(this)}/>
+
+
+                </View>
             </View>
         );
     }
@@ -105,15 +124,33 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: '#121212',
     },
-    btnTxtStyle: {
-        fontWeight: 'bold'
+    ContainerStyle: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: 20,
+        backgroundColor: 'white',
+        textAlign: 'center',
     },
+    sumStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 20,
+        paddingVertical: 10,
+        alignItems: 'center',
+        textAlign: 'center',
+    },
+
     titleText: {
         fontWeight: 'bold',
-        color: 'white',
-    }
+        color: 'black',
+    },
+    titleTextUser: {
+        fontWeight: 'bold',
+        color: 'black',
+        fontSize: 40,
+    },
 });
 
 export default Home;

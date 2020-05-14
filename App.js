@@ -11,9 +11,9 @@ export default class App extends Component {
     );
   }
   UNSAFE_componentWillMount() {
-    axios.defaults.baseURL = 'http://192.168.1.4:8000/APIlend/';
+    axios.defaults.baseURL = 'http://tarzan1009.pythonanywhere.com/api/';
     axios.defaults.timeout = 3000;
-    axios.defaults.headers.common = {'Authorization': `Token 57456a0c7a9ff117b291f223ab91dc672332e5ba`}
+    axios.defaults.headers.common = {'Authorization': `Token 57456a0c7a9ff117b291f223ab91dc672332e5ba`};
     global.userID = 1;
   }
 }

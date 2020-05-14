@@ -81,7 +81,7 @@ class LoginOrCreateForm extends Component {
         const { btnTxtStyle } = style;
 
         return (
-            <Button color='#ffffff0d' title={buttonText} titleStyle={btnTxtStyle} onPress={this.handleRequest.bind(this)}/>
+            <Button color='black' title={buttonText} titleStyle={btnTxtStyle} onPress={this.handleRequest.bind(this)}/>
         );
     }
 
@@ -113,7 +113,7 @@ class LoginOrCreateForm extends Component {
         } = style;
 
         return (
-            <View style={{ flex: 1, backgroundColor: '#121212' }}>
+            <View style={{ flex: 1, backgroundColor: 'white'}}>
                 <View style={formContainerStyle}>
                     <View style={fieldStyle}>
                         <TextInput
@@ -152,20 +152,21 @@ const style = StyleSheet.create({
     formContainerStyle: {
         padding: 20,
         flex: 2,
-        backgroundColor: '#121212',
+        backgroundColor: 'white',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
     },
     btnTxtStyle: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'black',
     },
     textInputStyle: {
         height: 40,
         flex: 1,
         marginBottom: 30,
-        color: '#fff',
-        borderBottomColor: '#f8f8f8',
+        color: 'black',
+        borderBottomColor: 'black',
         borderBottomWidth: 1,
     },
     fieldStyle: {
@@ -179,7 +180,7 @@ const style = StyleSheet.create({
         padding: 20,
     },
     accountCreateTextStyle: {
-        color: 'white'
+        color: 'black'
     },
     accountCreateContainerStyle: {
         padding: 25,

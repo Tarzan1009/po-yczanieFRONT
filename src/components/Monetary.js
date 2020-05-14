@@ -9,6 +9,8 @@ class Monetary extends Component {
 
     state = {
         debt: {},
+        debtor: {},
+        creditor: {},
     };
 
 
@@ -20,32 +22,38 @@ class Monetary extends Component {
         })
     }
 
-    componentDidMount() {
-        this.getDebt(this.props.debt_id);
-
+    async componentDidMount() {
+        //this.getDebt(this.props.debt_id);
+        const debt = await axios.get(`monetary/${this.props.debt_id}`);
+        const debtor = await axios.get(`users/${debt.data.debtor}`);
+        const creditor = await axios.get(`users/${debt.data.creditor}`);
+        this.setState({debt: debt.data, debtor: debtor.data, creditor: creditor.data})
     }
 
 
     render() {
         const debt = this.state.debt;
+        const debtor = this.state.debtor;
+        const creditor = this.state.creditor;
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
-        console.log(this.state);
 
 
         return (
-            <View style={buttonContainerStyle}>
-                <Text style={styles.titleText}>
-                    Dłużnik = {debt.debtor}
+
+            <View style={styles.txtcontainer}>
+                <Text style={{fontSize: 60, color: 'white'}}>
+                    {debt.amount}zł
+                </Text>
+                <Text style={{fontSize: 25, color: 'white'}}>
+                    {debt.date}
                 </Text>
                 <Text style={styles.titleText}>
-                    Data = {debt.date}
-                </Text>
-                <Text style={styles.titleText}>
-                    Suma = {debt.amount}
+                    {creditor.username} -> {debtor.username}
                 </Text>
 
             </View>
+
         );
     }
 }
@@ -56,13 +64,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: '#121212',
+        backgroundColor: 'white',
     },
     btnTxtStyle: {
         fontWeight: 'bold'
     },
     titleText: {
-        color: 'white'
+        color: 'white',
+        fontSize: 20,
     },
     container: {
         flex: 1,
@@ -70,16 +79,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    item: {
-        flex: 1,
-        padding: 10,
-        height: 50,
-        backgroundColor: '#282C35'
+    txtcontainer: {
+        justifyContent: 'center',
+        padding: 20,
+        paddingVertical: 10,
+        alignItems: 'center',
+        textAlign: 'center',
     },
-    itemText: {
-        color: '#fff',
-        fontSize: 24
-    }
+
 });
 
 export default Monetary;

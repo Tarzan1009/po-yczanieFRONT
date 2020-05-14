@@ -9,8 +9,7 @@ class Friend extends Component {
 
     state = {
         friend: {},
-        friendMonDebts: [],
-        friendMonCredits: [],
+        friendMon: [],
         friendSum: {},
         //friendItemDebts: [],
         //friendItemCredits: [],
@@ -24,17 +23,9 @@ class Friend extends Component {
         axios.get(`users/${user_id}`).then(resp => {
             this.setState({friend: resp.data});
         }).then(
-            axios.get(`users/${global.userID}/sum/${user_id}`).then(resp => {
+            axios.get(`users/${global.userID}/monetary/sum/${user_id}`).then(resp => {
                 this.setState({friendSum: resp.data});
-            }).then(
-                axios.get(`users/${global.userID}/monetary_debts/${user_id}`).then(resp => {
-                    this.setState({friendMonDebts: resp.data});
-                }).then(
-                    axios.get(`users/${global.userID}/monetary_credits/${user_id}`).then(resp => {
-                        this.setState({friendMonCredits: resp.data});
-                    })
-                )
-            )
+            })
         );
     }
 
@@ -42,49 +33,30 @@ class Friend extends Component {
         this.getFriend(this.props.user_id);
     }
 
+    monetary(){
+        Actions.MonetaryList({user_id: this.props.user_id});
+    }
+
 
     render() {
         const friend = this.state.friend;
         const sum = this.state.friendSum;
-        const MonDebts = this.state.friendMonDebts;
-        const MonCredits = this.state.friendMonCredits;
+        const Mon = this.state.friendMon;
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
 
-        const monclicked = (item) => {
-            Actions.monetary({debt_id: item.id})
-        };
-
         return (
             <View style={buttonContainerStyle}>
-                <Text style={styles.titleText}>
-                    Nazwa = {friend.username}
-                </Text>
-                <Text style={styles.titleText}>
-                    Suma = {sum.sum}
-                </Text>
-                <FlatList
-                    data={MonDebts}
-                    renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => monclicked(item)}>
-                            <View style={styles.item}>
-                                <Text style={styles.itemText}>{item.date}    {item.amount} zł</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-                <FlatList
-                    data={MonCredits}
-                    renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => monclicked(item)}>
-                            <View style={styles.item}>
-                                <Text style={styles.itemText}>{item.date}    -{item.amount} zł</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                />
+                <View style={styles.txtcontainer}>
+                    <Text style={{fontSize: 60}}>
+                        {friend.username}
+                    </Text>
+                    <Text style={{fontSize: 25}}>
+                        Suma: {sum.sum}
+                    </Text>
+                </View>
+                <Button color='black' title="monetary" titleStyle={btnTxtStyle}
+                        onPress={this.monetary.bind(this)}/>
 
             </View>
         );
@@ -93,17 +65,26 @@ class Friend extends Component {
 
 
 const styles = StyleSheet.create({
+    txtcontainer: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 20,
+        paddingVertical: 10,
+        alignItems: 'center',
+        textAlign: 'center',
+    },
     buttonContainerStyle: {
         flex: 1,
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: '#121212',
+        backgroundColor: 'white',
     },
     btnTxtStyle: {
         fontWeight: 'bold'
     },
     titleText: {
-        color: 'white'
+        color: 'black',
+        fontSize: 20,
     },
     container: {
         flex: 1,
@@ -111,11 +92,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    item: {
+    itemout: {
         flex: 1,
         padding: 10,
         height: 50,
-        backgroundColor: '#282C35'
+        backgroundColor: 'red'
+    },
+    itemin: {
+        flex: 1,
+        padding: 10,
+        height: 50,
+        backgroundColor: 'green'
     },
     itemText: {
         color: '#fff',

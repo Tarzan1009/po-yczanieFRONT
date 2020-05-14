@@ -6,6 +6,8 @@ import Home from './components/Home';
 import Friends from './components/Friends';
 import Friend from './components/Friend';
 import Monetary from "./components/Monetary";
+import MonetaryList from "./components/MonetaryList";
+import CreateMonetary from "./components/CreateMonetary";
 import { StyleSheet, StatusBar } from 'react-native';
 
 
@@ -17,7 +19,6 @@ const RouterComponent = () => {
                 <Stack
                     key="auth"
                     type="reset"
-                    navigationBarStyle={style.navBarStyle}
                     titleStyle={style.titleStyle}
                 >
                     <Scene
@@ -35,10 +36,7 @@ const RouterComponent = () => {
                 <Stack
                     key="main"
                     type="reset"
-                    navigationBarStyle={style.navBarStyle}
                     titleStyle={style.titleStyle}
-                    barButtonTextStyle={style.barButtonTextStyle}
-                    barButtonIconStyle={style.barButtonIconStyle}
                 >
                     <Scene
                         title="Home"
@@ -58,8 +56,18 @@ const RouterComponent = () => {
                     />
                     <Scene
                         title="Monetary"
+                        key="MonetaryList"
+                        component={MonetaryList}
+                    />
+                    <Scene
+                        title="Monetary"
                         key="monetary"
                         component={Monetary}
+                    />
+                    <Scene
+                        title="Create Debt"
+                        key="CreateMonetary"
+                        component={CreateMonetary}
                     />
                 </Stack>
             </Stack>
@@ -68,21 +76,11 @@ const RouterComponent = () => {
 };
 
 const style = StyleSheet.create({
-    navBarStyle: {
-        // top: StatusBar.currentHeight,
-        backgroundColor: '#121212',
-    },
+
     titleStyle: {
         flexDirection: 'row',
-        color: 'white',
-        width: 200,
-    },
-    barButtonTextStyle:{
-        color:'white'
-    },
-    barButtonIconStyle:{
-        tintColor:'white'
-    },
+        width: 200
+    }
 });
 
 
