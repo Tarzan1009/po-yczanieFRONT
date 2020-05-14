@@ -40,7 +40,7 @@ class Home extends Component {
     };
 
     item() {
-        console.log('items');
+        Actions.ItemList();
     };
 
 
@@ -105,11 +105,12 @@ class Home extends Component {
                     <Button color='black' title="money"
                             onPress={this.monetary.bind(this)}/>
                     <View><Text/></View>
-                    <Button color='black' title="items" disabled
+                    <Button color='black' title="items"
                             onPress={this.item.bind(this)}/>
                     <View><Text/></View>
                     <Button color='black' title="Logout"
-                            onPress={this.handleRequest.bind(this)}/>
+                            //onPress={this.handleRequest.bind(this)}
+                    />
 
 
                 </View>

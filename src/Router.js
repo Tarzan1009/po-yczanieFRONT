@@ -5,9 +5,9 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Friends from './components/Friends';
 import Friend from './components/Friend';
-import Monetary from "./components/Monetary";
 import MonetaryList from "./components/MonetaryList";
 import CreateMonetary from "./components/CreateMonetary";
+import ItemList from "./components/ItemList";
 import { StyleSheet, StatusBar } from 'react-native';
 
 
@@ -60,9 +60,9 @@ const RouterComponent = () => {
                         component={MonetaryList}
                     />
                     <Scene
-                        title="Monetary"
-                        key="monetary"
-                        component={Monetary}
+                        title="Item"
+                        key="ItemList"
+                        component={ItemList}
                     />
                     <Scene
                         title="Create Debt"
