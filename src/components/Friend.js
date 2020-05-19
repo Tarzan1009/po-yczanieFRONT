@@ -37,6 +37,10 @@ class Friend extends Component {
         Actions.MonetaryList({user_id: this.props.user_id});
     }
 
+    item() {
+        Actions.ItemList({user_id: this.props.user_id});
+    };
+
 
     render() {
         const friend = this.state.friend;
@@ -57,6 +61,8 @@ class Friend extends Component {
                 </View>
                 <Button color='black' title="monetary" titleStyle={btnTxtStyle}
                         onPress={this.monetary.bind(this)}/>
+                <Button color='black' title="items" titleStyle={btnTxtStyle}
+                        onPress={this.item.bind(this)}/>
 
             </View>
         );

@@ -15,30 +15,20 @@ class Friends extends Component {
     };
 
 
-    getFriends() {
-        const axios = require('axios');
-        axios.get(`users/${global.userID}/friends`).then(resp => {
-            this.setState({loading: false, friends: resp.data});
-            return resp.data;
-        });
-    }
-
-
-    async componentDidMount() {
+    async getFriends() {
         // const temp = this.getFriends();
-        let friendsWithSum = [];
-        const friendslist = await axios.get(`users/${global.userID}/friends`);
-
-        async function myFun(item, index, array) {
-            const resp = await axios.get(`users/${global.userID}/sum/${item.id}`);
-            item.sum = resp.data.sum;
-            return item;
+        const friends = await axios.get(`users/${global.userID}/friends`);
+        for(let i = 0; i < friends.data.length; i++){
+            let sum = await axios.get(`users/${global.userID}/monetary/sum/${friends.data[i].id}`);
+            friends.data[i].sum = sum.data.sum;
         }
-
-        //friendslist.data.map(await myFun);
-        //console.log(friendslist.data);
-        this.setState({loading: false, friends: friendslist.data})
+        this.setState({friends: friends.data, loading: false});
+        //console.log(this.state);
     };
+
+    componentDidMount() {
+        this.getFriends();
+    }
 
     showOverlay() {
         this.setState({layout: true})
@@ -48,13 +38,12 @@ class Friends extends Component {
         this.setState({layout: false})
     }
 
-    addTab() {
-        this.setState({add: true});
-        console.log('addtab')
+    without() {
+        Actions.AddFriend({account: 0});
     }
 
-    searchTab() {
-        this.setState({add: false})
+    with() {
+        Actions.AddFriend({account: 1});
     }
 
     userClicked = (item) => {
@@ -75,7 +64,7 @@ class Friends extends Component {
                         renderItem={({item}) => (
                             <TouchableOpacity onPress={() => this.userClicked(item)}>
                                 <View style={styles.item}>
-                                    <Text style={styles.itemText}>{item.username} {item.sum}zł</Text>
+                                    <Text style={styles.itemText}>{item.username}</Text><Text style={styles.itemSum}> {item.sum}zł</Text>
                                 </View>
                             </TouchableOpacity>
                         )}
@@ -103,17 +92,12 @@ class Friends extends Component {
                             <Text style={{fontSize: 30}}>X</Text>
                         </TouchableOpacity>
 
-                        <View style={styles.tabs}>
-                            <View style={styles.tab}>
-                                <TouchableOpacity disabled={true} style={{backgroundColor: 'gray', padding: 5}}>
-                                    <Text style={{fontSize: 20}}>Search</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.tab}>
-                                <TouchableOpacity style={{backgroundColor: 'white', padding: 5}} onpress={this.state.add = true}>
-                                    <Text style={{fontSize: 20}}>Add</Text>
-                                </TouchableOpacity>
-                            </View>
+                        <View style={styles.buttonContainerStyle}>
+                            <Button color='black' title="With account"
+                                    onPress={this.with.bind(this)}/>
+                            <View><Text/></View>
+                            <Button color='black' title="Without account"
+                                    onPress={this.without.bind(this)}/>
                         </View>
                     </View>)
                     }
@@ -152,7 +136,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: 'white',
     },
     tabs: {
         flex: 1,
@@ -187,6 +170,7 @@ const styles = StyleSheet.create({
     },
     item: {
         flex: 1,
+        flexDirection: 'row',
         padding: 10,
         height: 50,
         backgroundColor: '#282C35'
@@ -194,7 +178,13 @@ const styles = StyleSheet.create({
     itemText: {
         color: '#fff',
         fontSize: 24
+    },
+    itemSum: {
+        color: '#fff',
+        fontSize: 24,
+        marginLeft: 'auto'
     }
+
 });
 
 export default Friends;

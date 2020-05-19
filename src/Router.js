@@ -8,7 +8,9 @@ import Friend from './components/Friend';
 import MonetaryList from "./components/MonetaryList";
 import CreateMonetary from "./components/CreateMonetary";
 import ItemList from "./components/ItemList";
+import CreateItem from "./components/CreateItem";
 import { StyleSheet, StatusBar } from 'react-native';
+import AddFriend from "./components/AddFriend";
 
 
 const RouterComponent = () => {
@@ -16,23 +18,6 @@ const RouterComponent = () => {
 
         <Router>
             <Stack hideNavBar key="root">
-                <Stack
-                    key="auth"
-                    type="reset"
-                    titleStyle={style.titleStyle}
-                >
-                    <Scene
-                        title="Sign In"
-                        key="login"
-                        component={Login}
-                        initial
-                    />
-                    <Scene
-                        title="Register"
-                        key="register"
-                        component={Register}
-                    />
-                </Stack>
                 <Stack
                     key="main"
                     type="reset"
@@ -68,6 +53,33 @@ const RouterComponent = () => {
                         title="Create Debt"
                         key="CreateMonetary"
                         component={CreateMonetary}
+                    />
+                    <Scene
+                        title="Create Item"
+                        key="CreateItem"
+                        component={CreateItem}
+                    />
+                    <Scene
+                        title="Add friend"
+                        key="AddFriend"
+                        component={AddFriend}
+                    />
+                </Stack>
+                <Stack
+                    key="auth"
+                    type="reset"
+                    titleStyle={style.titleStyle}
+                >
+                    <Scene
+                        title="Sign In"
+                        key="login"
+                        component={Login}
+                        initial
+                    />
+                    <Scene
+                        title="Register"
+                        key="register"
+                        component={Register}
                     />
                 </Stack>
             </Stack>

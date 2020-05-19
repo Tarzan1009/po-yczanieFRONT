@@ -34,12 +34,10 @@ class CreateMonetary extends Component {
         }
         const today = new Date();
         const curDate = today.getFullYear() + "-" + parseInt(today.getMonth() + 1) + "-" + today.getDate();
-        console.log(curDate);
         this.setState({date: curDate})
     }
 
     async createMon() {
-        console.log(this.state);
         if (this.state.date && this.state.user_id && this.state.side && this.state.amount) {
             let resp;
             if (this.state.side === 1) {

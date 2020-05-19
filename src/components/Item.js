@@ -33,12 +33,10 @@ class Item extends Component {
 
         return (
 
-            <View style={styles.txtcontainer}>
-                <Text>image</Text>
+            <View style={styles.container}>
                 <Image source={{uri: debt.image}}
-                       style={{width: 400, height: 400}} />
-                <Text>image</Text>
-                <Text style={{fontSize: 60, color: 'white'}}>
+                       style={{width: 300, height: 300}} />
+                <Text style={{fontSize: 50, color: 'white'}}>
                     {debt.name}
                 </Text>
                 <Text style={{fontSize: 25, color: 'white'}}>
@@ -77,12 +75,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    txtcontainer: {
         justifyContent: 'center',
         padding: 20,
         paddingVertical: 10,

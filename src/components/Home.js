@@ -25,7 +25,7 @@ class Home extends Component {
             })
             .catch(error => console.log(error))
             .then(response => {
-                //axios.defaults.headers.common.Authorization = null
+                axios.defaults.headers.common.Authorization = null
                 Actions.auth()
             });
 
@@ -85,17 +85,23 @@ class Home extends Component {
         return (
             <View style={ContainerStyle}>
                 <View style={styles.sumStyle}>
+                    <Text style={styles.titleText}>
+                        Welcome back
+                    </Text>
                     <Text style={styles.titleTextUser}>
                         {user.username}
                     </Text>
                     <Text style={styles.titleText}>
-                        Suma: {sum.sum}
+                        Sum: {sum.sum}
                     </Text>
                     <Text style={styles.titleText}>
-                        Suma out: {sumout.amount__sum} Suma in: {sumin.amount__sum}
+                        Credits: {sumout.sum} Debts: {sumin.sum}
                     </Text>
                     <Text style={styles.titleText}>
-                        Przedmioty in: {countin.count} Przedmioty out: {countout.count}
+                        Items borrowed: {countin.count}
+                    </Text>
+                    <Text style={styles.titleText}>
+                        Items lent: {countout.count}
                     </Text>
                 </View>
                 <View style={styles.buttonContainerStyle}>

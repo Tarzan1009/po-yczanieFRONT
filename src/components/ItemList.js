@@ -8,27 +8,11 @@ import Item from "./Item";
 class ItemList extends Component {
 
     state = {
-        friendMon: [],
+        items: [],
         layout: false,
         choice: 0,
     };
 
-
-    getItemWith(user_id) {
-        const axios = require('axios');
-        axios.get(`users/${global.userID}/item/${user_id}`).then(resp => {
-                this.setState({friendMon: resp.data});
-            }
-        )
-    }
-
-    getItem() {
-        const axios = require('axios');
-        axios.get(`users/${global.userID}/item`).then(resp => {
-                this.setState({friendMon: resp.data});
-            }
-        )
-    }
 
     componentDidMount() {
         if(this.props.user_id > 0)
@@ -41,36 +25,66 @@ class ItemList extends Component {
         }
     }
 
+    async getItem() {
+        // const temp = this.getFriends();
+        const item = await axios.get(`users/${global.userID}/item`);
+        for(let i = 0; i < item.data.length; i++){
+            let debtor = await axios.get(`users/${item.data[i].debtor}`);
+            item.data[i].debtor_name = debtor.data.username;
+            let creditor = await axios.get(`users/${item.data[i].creditor}`);
+            item.data[i].creditor_name = creditor.data.username;
+        }
+        this.setState({items: item.data, loading: false});
+        //console.log(this.state);
+    };
 
-    title(item) {
-        if(item.debtor === global.userID)
-        {
-            return <Text style={styles.itemText}>{item.date} {item.amount} PLN</Text>
+    async getItemWith(user_id) {
+        // const temp = this.getFriends();
+        const item = await axios.get(`users/${global.userID}/item/${user_id}`);
+        for(let i = 0; i < item.data.length; i++){
+            let debtor = await axios.get(`users/${item.data[i].debtor}`);
+            item.data[i].debtor_name = debtor.data.username;
+            let creditor = await axios.get(`users/${item.data[i].creditor}`);
+            item.data[i].creditor_name = creditor.data.username;
         }
-        else
-        {
-            return <Text style={styles.itemText}>{item.date} -{item.amount} PLN</Text>
-        }
-    }
+        this.setState({items: item.data, loading: false});
+        //console.log(this.state);
+    };
+
+    // getItemWith(user_id) {
+    //     const axios = require('axios');
+    //     axios.get(`users/${global.userID}/item/${user_id}`).then(resp => {
+    //             this.setState({friendMon: resp.data});
+    //         }
+    //     )
+    // }
+    //
+    // getItem() {
+    //     const axios = require('axios');
+    //     axios.get(`users/${global.userID}/item`).then(resp => {
+    //             this.setState({friendMon: resp.data});
+    //         }
+    //     )
+    // }
 
     closeOverlay() {
         this.setState({layout: false})
     }
 
-    // createNew() {
-    //     if(this.props.user_id > 0)
-    //     {
-    //         Actions.CreateMonetary({user_id: this.props.user_id});
-    //     }
-    //     else
-    //     {
-    //         Actions.CreateMonetary();
-    //     }
-    // }
+    createNew() {
+        if(this.props.user_id > 0)
+        {
+            Actions.CreateItem({user_id: this.props.user_id});
+        }
+        else
+        {
+            Actions.CreateItem();
+        }
+    }
 
 
     render() {
-        const Mon = this.state.friendMon;
+        const Mon = this.state.items;
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
 
@@ -92,7 +106,16 @@ class ItemList extends Component {
                             <View style={
                                 (item.debtor === global.userID) ? styles.itemin : styles.itemout
                             }>
-                                {(item.debtor === global.userID) ? <Text style={styles.itemText}>{item.date} Borrowed {item.name}</Text> : <Text style={styles.itemText}>{item.date} Lent {item.name}</Text>}
+                                {(item.debtor === global.userID) ?
+                                    (<View>
+                                        <Text style={styles.itemText}>{item.date} Borrowed {item.name}</Text>
+                                        <Text style={styles.itemText}>from {item.debtor_name}</Text>
+                                    </View>)
+                                    :
+                                    (<View>
+                                        <Text style={styles.itemText}>{item.date} Lent {item.name}</Text>
+                                        <Text style={styles.itemText}>to {item.debtor_name}</Text>
+                                    </View>)}
                             </View>
                         </TouchableOpacity>
                     )}
@@ -113,7 +136,7 @@ class ItemList extends Component {
                         right: 20,
                         alignSelf: 'flex-end'
                     }}
-                    //onPress={this.createNew.bind(this)}
+                    onPress={this.createNew.bind(this)}
                 >
                     <Text style={{fontSize: 30}}>+</Text>
                 </TouchableOpacity>
@@ -186,13 +209,11 @@ const styles = StyleSheet.create({
     itemout: {
         flex: 1,
         padding: 10,
-        height: 50,
         backgroundColor: 'red'
     },
     itemin: {
         flex: 1,
         padding: 10,
-        height: 50,
         backgroundColor: 'green'
     },
     itemText: {

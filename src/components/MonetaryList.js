@@ -8,48 +8,42 @@ import Monetary from "./Monetary";
 class MonetaryList extends Component {
 
     state = {
-        friendMon: [],
+        monetary: [],
         layout: false,
         choice: 0,
     };
 
+    async getMonetary() {
+        // const temp = this.getFriends();
+        const monetary = await axios.get(`users/${global.userID}/monetary`);
+        for(let i = 0; i < monetary.data.length; i++){
+            let debtor = await axios.get(`users/${monetary.data[i].debtor}`);
+            monetary.data[i].debtor_name = debtor.data.username;
+            let creditor = await axios.get(`users/${monetary.data[i].creditor}`);
+            monetary.data[i].creditor_name = creditor.data.username;
+        }
+        this.setState({monetary: monetary.data, loading: false});
+        //console.log(this.state);
+    };
 
-    getMonetaryWith(user_id) {
-        const axios = require('axios');
-            axios.get(`users/${global.userID}/monetary/${user_id}`).then(resp => {
-                this.setState({friendMon: resp.data});
-            }
-        )
-    }
-
-    getMonetary() {
-        const axios = require('axios');
-        axios.get(`users/${global.userID}/monetary`).then(resp => {
-                this.setState({friendMon: resp.data});
-            }
-        )
-    }
+    async getMonetaryWith(user_id) {
+        // const temp = this.getFriends();
+        const monetary = await axios.get(`users/${global.userID}/monetary/${user_id}`);
+        for(let i = 0; i < monetary.data.length; i++){
+            let debtor = await axios.get(`users/${monetary.data[i].debtor}`);
+            monetary.data[i].debtor_name = debtor.data.username;
+            let creditor = await axios.get(`users/${monetary.data[i].creditor}`);
+            monetary.data[i].creditor_name = creditor.data.username;
+        }
+        this.setState({monetary: monetary.data, loading: false});
+        //console.log(this.state);
+    };
 
     componentDidMount() {
-        if(this.props.user_id > 0)
-        {
+        if (this.props.user_id > 0) {
             this.getMonetaryWith(this.props.user_id);
-        }
-        else
-        {
+        } else {
             this.getMonetary();
-        }
-    }
-
-
-    title(item) {
-        if(item.debtor === global.userID)
-        {
-            return <Text style={styles.itemText}>{item.date} {item.amount} PLN</Text>
-        }
-        else
-        {
-            return <Text style={styles.itemText}>{item.date} -{item.amount} PLN</Text>
         }
     }
 
@@ -58,19 +52,16 @@ class MonetaryList extends Component {
     }
 
     createNew() {
-        if(this.props.user_id > 0)
-        {
+        if (this.props.user_id > 0) {
             Actions.CreateMonetary({user_id: this.props.user_id});
-        }
-        else
-        {
+        } else {
             Actions.CreateMonetary();
         }
     }
 
 
     render() {
-        const Mon = this.state.friendMon;
+        const Mon = this.state.monetary;
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
 
@@ -92,7 +83,17 @@ class MonetaryList extends Component {
                             <View style={
                                 (item.debtor === global.userID) ? styles.itemin : styles.itemout
                             }>
-                                {(item.debtor === global.userID) ? <Text style={styles.itemText}>{item.date} Borrowed {item.amount} PLN</Text> : <Text style={styles.itemText}>{item.date} Lent {item.amount} PLN</Text>}
+                                {(item.debtor === global.userID) ?
+                                    (<View>
+                                        <Text style={styles.itemText}>{item.date} Borrowed {item.amount} PLN</Text>
+                                        <Text style={styles.itemText}>from {item.creditor_name}</Text>
+                                    </View>)
+                                    :
+                                    (<View>
+                                        <Text style={styles.itemText}>{item.date} Lent {item.amount} PLN</Text>
+                                        <Text style={styles.itemText}>to {item.debtor_name}</Text>
+                                    </View>)
+                                }
                             </View>
                         </TouchableOpacity>
                     )}
@@ -186,13 +187,11 @@ const styles = StyleSheet.create({
     itemout: {
         flex: 1,
         padding: 10,
-        height: 50,
         backgroundColor: 'red'
     },
     itemin: {
         flex: 1,
         padding: 10,
-        height: 50,
         backgroundColor: 'green'
     },
     itemText: {
