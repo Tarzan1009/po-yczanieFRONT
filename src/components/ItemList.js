@@ -34,7 +34,8 @@ class ItemList extends Component {
             let creditor = await axios.get(`users/${item.data[i].creditor}`);
             item.data[i].creditor_name = creditor.data.username;
         }
-        this.setState({items: item.data, loading: false});
+        this.setState({items: item.data.filter(function check(item){return item.isActive===true}),
+            loading: false});
         //console.log(this.state);
     };
 
@@ -47,7 +48,7 @@ class ItemList extends Component {
             let creditor = await axios.get(`users/${item.data[i].creditor}`);
             item.data[i].creditor_name = creditor.data.username;
         }
-        this.setState({items: item.data, loading: false});
+        this.setState({items: item.data.filter(function check(item){return item.isActive===true}), loading: false});
         //console.log(this.state);
     };
 

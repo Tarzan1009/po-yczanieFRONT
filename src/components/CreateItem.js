@@ -150,14 +150,17 @@ class CreateItem extends Component {
                         }
                     </Picker>}
                     {(this.props.user_id && this.state.friendsLoaded) &&
-                    <Text>{this.state.friend.username}</Text>}
+                    <Text style={{fontSize: 25}}>{this.state.friend.username}</Text>}
+                    <Text> </Text>
+                    <Text style={{fontSize: 25}}>Item:</Text>
+                    <Text> </Text>
                     <TextInput
                         placeholder="Name"
                         autoCorrect={false}
                         onChangeText={(text) => this.setState({name: text})}
                         style={styles.TextInputStyle}
                     />
-                    <Text>
+                    <Text style={{fontSize: 15}}>
                         Date:
                     </Text>
                     <DatePicker

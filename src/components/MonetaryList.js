@@ -22,20 +22,24 @@ class MonetaryList extends Component {
             let creditor = await axios.get(`users/${monetary.data[i].creditor}`);
             monetary.data[i].creditor_name = creditor.data.username;
         }
-        this.setState({monetary: monetary.data, loading: false});
+        this.setState({monetary: monetary.data.filter(function check(item){return item.isActive===true}),
+            loading: false});
         //console.log(this.state);
     };
 
     async getMonetaryWith(user_id) {
         // const temp = this.getFriends();
         const monetary = await axios.get(`users/${global.userID}/monetary/${user_id}`);
+        monetary.data.filter(function check(item){return item.isActive});
+        console.log(monetary.data);
         for(let i = 0; i < monetary.data.length; i++){
             let debtor = await axios.get(`users/${monetary.data[i].debtor}`);
             monetary.data[i].debtor_name = debtor.data.username;
             let creditor = await axios.get(`users/${monetary.data[i].creditor}`);
             monetary.data[i].creditor_name = creditor.data.username;
         }
-        this.setState({monetary: monetary.data, loading: false});
+        this.setState({monetary: monetary.data.filter(function check(item){return item.isActive===true}),
+            loading: false});
         //console.log(this.state);
     };
 

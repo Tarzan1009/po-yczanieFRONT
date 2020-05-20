@@ -9,10 +9,33 @@ class AddFriend extends Component {
     state = {
         overlay: false,
         users: [],
-        requestDone: false
+        requestDone: false,
+        friends: [],
     };
 
+    async getFriends(){
+        let curUser = await axios.get(`users/${global.userID}`);
+        this.setState({friends: curUser.data.friends});
+
+    }
+
     componentDidMount() {
+        if(this.props.account===1){
+            this.getFriends();
+
+        }
+    }
+
+    check(item){
+        if(item.id===global.userID){return false;}
+        let friends = this.state.friends;
+        console.log(friends);
+        for(let i = 0; i < friends.length; i++){
+            if(item.id===friends[i]){
+                return false;
+            }
+        }
+        return item.user
     }
 
     async createFriend() {
@@ -29,8 +52,11 @@ class AddFriend extends Component {
     }
 
     async search(text){
-        let resp = await axios.get(`users/search/${text}`);
-        this.setState({users: resp.data});
+        if(text) {
+            let resp = await axios.get(`users/search/${text}`);
+            console.log(resp.data);
+            this.setState({users: resp.data.filter(this.check.bind(this))});
+        }
     }
 
     async addFriend(id){

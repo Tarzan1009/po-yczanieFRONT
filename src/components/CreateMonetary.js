@@ -88,9 +88,6 @@ class CreateMonetary extends Component {
                         <Picker.Item key="1" label="from" value="1"/>
                         <Picker.Item key="2" label="to" value="2"/>
                     </Picker>
-                    <Text style={{fontSize: 25}}>
-                        User:
-                    </Text>
                     {!this.props.user_id &&
                     <Picker
                         selectedValue={this.state.friends}
@@ -106,8 +103,12 @@ class CreateMonetary extends Component {
                         }
                     </Picker>}
                     {(this.props.user_id && this.state.friendsLoaded) &&
-                    <Text>{this.state.friend.username}</Text>}
-                    <Text>
+                    <Text style={{fontSize: 25}}>{this.state.friend.username}</Text>}
+
+                    <Text> </Text>
+                    <Text style={{fontSize: 25}}>Debt:</Text>
+                    <Text> </Text>
+                    <Text style={{fontSize: 15}}>
                         Date:
                     </Text>
                     <DatePicker
@@ -135,7 +136,7 @@ class CreateMonetary extends Component {
                             this.setState({date: date})
                         }}
                     />
-                    <Text>Amount:</Text>
+                    <Text> </Text>
                     <TextInput
                         placeholder="Amount"
                         underlineColorAndroid='transparent'
@@ -187,6 +188,7 @@ const styles = StyleSheet.create({
     TextInputStyle: {
         textAlign: 'center',
         height: 40,
+        width: 200,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: '#009688',
