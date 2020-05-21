@@ -33,13 +33,17 @@ class Friend extends Component {
         this.getFriend(this.props.user_id);
     }
 
-    monetary(){
+    monetary() {
         Actions.MonetaryList({user_id: this.props.user_id});
     }
 
     item() {
         Actions.ItemList({user_id: this.props.user_id});
     };
+
+    assign() {
+        Actions.Assign({id: this.state.friend.id})
+    }
 
 
     render() {
@@ -59,8 +63,13 @@ class Friend extends Component {
                         Suma: {sum.sum}
                     </Text>
                 </View>
+                {!(this.state.friend.user>0) &&
+                <Button color='black' title="assign" titleStyle={btnTxtStyle}
+                        onPress={this.assign.bind(this)}/>}
+                <View style={{padding: 5}}></View>
                 <Button color='black' title="monetary" titleStyle={btnTxtStyle}
                         onPress={this.monetary.bind(this)}/>
+                <View style={{padding: 5}}></View>
                 <Button color='black' title="items" titleStyle={btnTxtStyle}
                         onPress={this.item.bind(this)}/>
 

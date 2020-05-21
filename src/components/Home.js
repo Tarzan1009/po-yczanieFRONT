@@ -32,6 +32,7 @@ class Home extends Component {
             .catch(error => console.log(error))
             .then(response => {
                 axios.defaults.headers.common.Authorization = null;
+                global.userID = 0;
                 Actions.auth()
             });
 
@@ -62,7 +63,7 @@ class Home extends Component {
     };
 
     assignNot() {
-        Actions.Notifications({notif: this.state.itemNot});
+        Actions.Assignments({notif: this.state.assignNot});
     };
 
     checkNot() {
@@ -75,6 +76,15 @@ class Home extends Component {
 
 
     componentDidMount() {
+        console.log(axios.defaults.headers.common.Authorization);
+        if(axios.defaults.headers.common.Authorization === null || axios.defaults.headers.common.Authorization === undefined){
+            Actions.auth();
+        }
+        if(!(global.userID>0)) {
+            axios.get('current_user').then(res => {
+                global.userID = res.data[0].id;
+            })
+        }
         this.getSum();
         this.getNotifications();
 
@@ -188,8 +198,8 @@ class Home extends Component {
                     <Button color='black' title="items"
                             onPress={this.item.bind(this)}/>
                     <View><Text/></View>
-                    <Button color='black' title="Logout"
-                        //onPress={this.handleRequest.bind(this)}
+                    <Button color='black' title="Logout" disabled
+                        onPress={this.handleRequest.bind(this)}
                     />
 
 

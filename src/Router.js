@@ -12,6 +12,9 @@ import CreateItem from "./components/CreateItem";
 import { StyleSheet, StatusBar } from 'react-native';
 import AddFriend from "./components/AddFriend";
 import Notifications from "./components/Notifications";
+import Assignments from "./components/Assignments";
+import Assignment from "./components/Assignment";
+import Assign from "./components/Assign";
 
 
 const RouterComponent = () => {
@@ -69,6 +72,21 @@ const RouterComponent = () => {
                         title="Notifications"
                         key="Notifications"
                         component={Notifications}
+                    />
+                    <Scene
+                        title="Notifications"
+                        key="Assignments"
+                        component={Assignments}
+                    />
+                    <Scene
+                        title="Assignment"
+                        key="Assignment"
+                        component={Assignment}
+                    />
+                    <Scene
+                        title="Assign"
+                        key="Assign"
+                        component={Assign}
                     />
                 </Stack>
                 <Stack
