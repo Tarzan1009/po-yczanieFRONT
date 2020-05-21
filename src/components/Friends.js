@@ -23,7 +23,7 @@ class Friends extends Component {
             friends.data[i].sum = sum.data.sum;
         }
         this.setState({friends: friends.data, loading: false});
-        //console.log(this.state);
+        console.log(friends.data);
     };
 
     componentDidMount() {

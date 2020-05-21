@@ -29,7 +29,6 @@ class Item extends Component {
         const image = this.state.image;
         const {buttonContainerStyle} = styles;
         const {btnTxtStyle} = styles;
-        console.log(debt.image);
 
         return (
 

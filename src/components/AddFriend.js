@@ -61,9 +61,11 @@ class AddFriend extends Component {
 
     async addFriend(id){
         console.log(id);
-        let curUser = await axios.get(`users/${global.userID}`);
-        curUser.data.friends.push(id);
-        let resp = await axios.patch(`users/${global.userID}`, curUser.data);
+        let resp = await axios.post(`proposition`,{
+            sender: global.userID,
+            receiver: id,
+
+        });
         this.setState({status: resp.status, overlay: true, requestDone: true});
         console.log(this.state.status);
     }

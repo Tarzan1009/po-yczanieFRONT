@@ -11,6 +11,7 @@ import ItemList from "./components/ItemList";
 import CreateItem from "./components/CreateItem";
 import { StyleSheet, StatusBar } from 'react-native';
 import AddFriend from "./components/AddFriend";
+import Notifications from "./components/Notifications";
 
 
 const RouterComponent = () => {
@@ -63,6 +64,11 @@ const RouterComponent = () => {
                         title="Add friend"
                         key="AddFriend"
                         component={AddFriend}
+                    />
+                    <Scene
+                        title="Notifications"
+                        key="Notifications"
+                        component={Notifications}
                     />
                 </Stack>
                 <Stack

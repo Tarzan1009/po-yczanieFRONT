@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {View, Button, StyleSheet, Text} from 'react-native';
+import {View, Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
+import Monetary from "./Monetary";
 
 
 class Home extends Component {
@@ -12,7 +13,12 @@ class Home extends Component {
         sumin: 0,
         countout: 0,
         countin: 0,
-        user: {}
+        user: {},
+        itemNot: [],
+        monNot: [],
+        friendNot: [],
+        assignNot: [],
+        overlay: false,
     };
 
     handleRequest() {
@@ -25,7 +31,7 @@ class Home extends Component {
             })
             .catch(error => console.log(error))
             .then(response => {
-                axios.defaults.headers.common.Authorization = null
+                axios.defaults.headers.common.Authorization = null;
                 Actions.auth()
             });
 
@@ -43,9 +49,68 @@ class Home extends Component {
         Actions.ItemList();
     };
 
+    friendsNot() {
+        Actions.Notifications({friend: true, notif: this.state.friendNot});
+    };
+
+    monetaryNot() {
+        Actions.Notifications({monetary: true, notif: this.state.monNot});
+    };
+
+    itemNot() {
+        Actions.Notifications({item: true, notif: this.state.itemNot});
+    };
+
+    assignNot() {
+        Actions.Notifications({notif: this.state.itemNot});
+    };
+
+    checkNot() {
+        this.getNotifications()
+    }
+
+    consoleLog() {
+        console.log(this.state);
+    }
+
 
     componentDidMount() {
         this.getSum();
+        this.getNotifications();
+
+    }
+
+    getNotifications() {
+        axios.get(`users/${global.userID}/proposition/receiver`).then(resp => {
+            this.setState({
+                monNot: resp.data.filter(function checkM(item) {
+                    return (item.monetary>0 && item.isActive)
+                }),
+                itemNot: resp.data.filter(function checkM(item) {
+                    return (item.item>0 && item.isActive)
+                }),
+                assignNot: resp.data.filter(function checkM(item) {
+                    return (item.toAssign>0 && item.isActive)
+                }),
+                friendNot: resp.data.filter(function checkM(item) {
+                    return (!(item.item || item.monetary || item.toAssign)>0 && item.isActive)
+                }),
+                overlay: (resp.data.filter(function checkM(item) {
+                        return (!(item.item || item.monetary || item.toAssign)>0 && item.isActive)
+                    }).length>0 ||
+                    resp.data.filter(function checkM(item) {
+                        return (item.item>0 && item.isActive)
+                    }).length>0 ||
+                    resp.data.filter(function checkM(item) {
+                        return (item.toAssign>0 && item.isActive)
+                    }).length>0 ||
+                    resp.data.filter(function checkM(item) {
+                        return (item.monetary>0 && item.isActive)
+                    }).length>0)
+            });
+        })
+
+
     }
 
     getSum() {
@@ -75,12 +140,15 @@ class Home extends Component {
         );
     }
 
+    closeOverlay() {
+        this.setState({overlay: false})
+    }
+
 
     render() {
         const {ContainerStyle} = styles;
         const {btnTxtStyle} = styles;
         const {sum, sumout, sumin, countout, countin, user} = this.state;
-
 
         return (
             <View style={ContainerStyle}>
@@ -105,6 +173,12 @@ class Home extends Component {
                     </Text>
                 </View>
                 <View style={styles.buttonContainerStyle}>
+                    <Button color='black' title="Log"
+                            onPress={this.consoleLog.bind(this)}/>
+                    <View><Text/></View>
+                    <Button color='black' title="Notifications"
+                            onPress={this.checkNot.bind(this)}/>
+                    <View><Text/></View>
                     <Button color='black' title="friends"
                             onPress={this.friends.bind(this)}/>
                     <View><Text/></View>
@@ -115,11 +189,47 @@ class Home extends Component {
                             onPress={this.item.bind(this)}/>
                     <View><Text/></View>
                     <Button color='black' title="Logout"
-                            //onPress={this.handleRequest.bind(this)}
+                        //onPress={this.handleRequest.bind(this)}
                     />
 
 
                 </View>
+                {this.state.overlay === true &&
+                (<View style={styles.floatView}>
+                    <TouchableOpacity
+                        style={{
+                            borderWidth: 1,
+                            borderColor: 'rgba(0,0,0,1)',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 50,
+                            height: 50,
+                            backgroundColor: '#fff',
+                            borderRadius: 25,
+                            position: 'absolute',
+                            top: 20,
+                            right: 20,
+                            alignSelf: 'flex-end'
+                        }}
+                        onPress={this.closeOverlay.bind(this)}
+                    >
+                        <Text style={{fontSize: 30}}>X</Text>
+                    </TouchableOpacity>
+                    <View style={{backgroundColor: 'white', padding: 40}}>
+                        <Button color='black' title={"friends ".concat(this.state.friendNot.length).concat(" new")}
+                                onPress={this.friendsNot.bind(this)}/>
+                        <View><Text/></View>
+                        <Button color='black' title={"money ".concat(this.state.monNot.length).concat(" new")}
+                                onPress={this.monetaryNot.bind(this)}/>
+                        <View><Text/></View>
+                        <Button color='black' title={"items ".concat(this.state.itemNot.length).concat(" new")}
+                                onPress={this.itemNot.bind(this)}/>
+                        <View><Text/></View>
+                        <Button color='black' title={"assignments ".concat(this.state.assignNot.length).concat(" new")}
+                                onPress={this.assignNot.bind(this)}/>
+                    </View>
+                </View>)
+                }
             </View>
         );
     }
@@ -127,16 +237,24 @@ class Home extends Component {
 
 
 const styles = StyleSheet.create({
+
+    floatView: {
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
+        padding: 80,
+        backgroundColor: 'rgba(0,0,0,0.6)',
+    },
     buttonContainerStyle: {
         flex: 1,
         justifyContent: 'center',
-        padding: 20,
+        padding: 40,
     },
     ContainerStyle: {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        padding: 20,
+
         backgroundColor: 'white',
         textAlign: 'center',
     },

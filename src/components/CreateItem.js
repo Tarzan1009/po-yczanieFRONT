@@ -91,7 +91,6 @@ class CreateItem extends Component {
             let data = {
                 name: this.state.name,
                 date: this.state.date,
-                isActive: true,
                 info: this.state.info,
                 creditor: global.userID,
                 debtor: this.state.user_id,
@@ -109,7 +108,14 @@ class CreateItem extends Component {
             resp = axios.post('item',
                 data).then(res => {
                 this.setState({status: res.status, requestDone: true});
-                return res.status;
+                return res;
+            }).then(res => {
+                axios.post('proposition',
+                    {
+                        item: res.data.id,
+                        receiver: this.state.user_id,
+                        sender: global.userID,
+                    })
             });
             this.setState({overlay: true});
         } else {
@@ -256,7 +262,11 @@ class CreateItem extends Component {
                         onPress={this.createMon.bind(this)}/>
                 {this.state.overlay &&
                 <View style={styles.floatView}>
-                    <Text style={{fontSize: 50}}>{this.state.requestDone && this.state.status}</Text>
+                    {(this.state.requestDone && this.state.status === 201) &&
+                    <Text style={{fontSize: 30, color: 'white', textAlign: 'center',}}>
+                        Created Item Debt {"\n"}
+                        Waiting for approval from 2nd party
+                    </Text>}
                     <Button color='black' title="ok"
                             onPress={this.goBack.bind(this)}/>
                 </View>

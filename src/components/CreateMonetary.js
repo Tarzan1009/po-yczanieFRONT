@@ -45,25 +45,33 @@ class CreateMonetary extends Component {
                     {
                         amount: this.state.amount,
                         date: this.state.date,
-                        isActive: true,
                         creditor: this.state.user_id,
                         debtor: global.userID,
                     }).then(res => {
                     this.setState({status: res.status, requestDone: true});
-                    return res.status;
-                })
+                    return res;
+                }).then(res => {axios.post('proposition',
+                    {
+                        monetary: res.data.id,
+                        receiver: this.state.user_id,
+                        sender: global.userID,
+                    })})
             } else if (this.state.side === 2) {
                 resp = await axios.post('monetary',
                     {
                         amount: this.state.amount,
                         date: this.state.date,
-                        isActive: true,
                         creditor: global.userID,
                         debtor: this.state.user_id,
                     }).then(res => {
                     this.setState({status: res.status, requestDone: true});
-                    return res.status;
-                })
+                    return res;
+                }).then(res => {axios.post('proposition',
+                    {
+                        monetary: res.data.id,
+                        receiver: this.state.user_id,
+                        sender: global.userID,
+                    })})
             }
             this.setState({overlay: true});
         } else {
@@ -151,7 +159,11 @@ class CreateMonetary extends Component {
                         onPress={this.createMon.bind(this)}/>
                 {this.state.overlay &&
                 <View style={styles.floatView}>
-                    <Text style={{fontSize: 50}}>{this.state.requestDone && this.state.status}</Text>
+                    {(this.state.requestDone && this.state.status === 201) &&
+                    <Text style={{fontSize: 30, color: 'white', textAlign: 'center',}}>
+                        Created Item Debt {"\n"}
+                        Waiting for approval from 2nd party
+                    </Text>}
                     <Button color='black' title="ok"
                             onPress={this.goBack.bind(this)}/>
                 </View>
@@ -177,6 +189,7 @@ const styles = StyleSheet.create({
     floatView: {
         position: 'absolute',
         height: '100%',
+        justifyContent: 'center',
         width: '100%',
         backgroundColor: 'rgba(0,0,0,0.6)',
     },
