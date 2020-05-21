@@ -150,6 +150,11 @@ class Home extends Component {
         );
     }
 
+    refresh() {
+        this.getSum();
+        this.getNotifications();
+    }
+
     closeOverlay() {
         this.setState({overlay: false})
     }
@@ -183,10 +188,10 @@ class Home extends Component {
                     </Text>
                 </View>
                 <View style={styles.buttonContainerStyle}>
-                    <Button color='black' title="Log"
-                            onPress={this.consoleLog.bind(this)}/>
-                    <View><Text/></View>
-                    <Button color='black' title="Notifications"
+                    {/*<Button color='black' title="Log"*/}
+                    {/*        onPress={this.consoleLog.bind(this)}/>*/}
+                    {/*<View><Text/></View>*/}
+                    <Button color='black' title={"Notifications ".concat(this.state.friendNot.length+this.state.monNot.length+this.state.itemNot.length+this.state.assignNot.length).concat(" new")}
                             onPress={this.checkNot.bind(this)}/>
                     <View><Text/></View>
                     <Button color='black' title="friends"
@@ -204,6 +209,25 @@ class Home extends Component {
 
 
                 </View>
+                <TouchableOpacity
+                    style={{
+                        borderWidth: 1,
+                        borderColor: 'rgba(0,0,0,1)',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 50,
+                        height: 50,
+                        backgroundColor: '#fff',
+                        borderRadius: 25,
+                        position: 'absolute',
+                        top: 20,
+                        right: 20,
+                        alignSelf: 'flex-end'
+                    }}
+                    onPress={this.refresh.bind(this)}
+                >
+                    <Text style={{fontSize: 30}}>R</Text>
+                </TouchableOpacity>
                 {this.state.overlay === true &&
                 (<View style={styles.floatView}>
                     <TouchableOpacity
@@ -240,6 +264,7 @@ class Home extends Component {
                     </View>
                 </View>)
                 }
+
             </View>
         );
     }

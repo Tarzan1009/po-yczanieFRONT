@@ -45,6 +45,38 @@ class Friend extends Component {
         Actions.Assign({id: this.state.friend.id})
     }
 
+    clear() {
+        if (this.state.friendSum > 0) {
+            let resp = axios.post('monetary',
+                {
+                    debtor: global.userID,
+                    creditor: this.state.friend.id,
+                    amount: this.state.friendSum
+                }).then(res => {
+                axios.post('proposition',
+                    {
+                        sender: global.userID,
+                        receiver: this.state.creditor,
+                        item: this.props.debt_id
+                    })
+            })
+        } else {
+            let resp = axios.post('monetary',
+                {
+                    debtor: global.userID,
+                    creditor: this.state.friend.id,
+                    amount: this.state.friendSum
+                }).then(res => {
+                axios.post('proposition',
+                    {
+                        sender: global.userID,
+                        receiver: this.state.creditor,
+                        item: this.props.debt_id
+                    })
+            })
+        }
+    }
+
 
     render() {
         const friend = this.state.friend;
@@ -63,9 +95,12 @@ class Friend extends Component {
                         Suma: {sum.sum}
                     </Text>
                 </View>
-                {!(this.state.friend.user>0) &&
+                {!(this.state.friend.user > 0) &&
                 <Button color='black' title="assign" titleStyle={btnTxtStyle}
                         onPress={this.assign.bind(this)}/>}
+                <View style={{padding: 5}}></View>
+                <Button color='black' title="clear money" titleStyle={btnTxtStyle}
+                        onPress={this.clear.bind(this)}/>
                 <View style={{padding: 5}}></View>
                 <Button color='black' title="monetary" titleStyle={btnTxtStyle}
                         onPress={this.monetary.bind(this)}/>

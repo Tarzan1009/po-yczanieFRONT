@@ -211,7 +211,7 @@ class Notifications extends Component {
                                             <Text style={{fontSize: 30}}>+</Text>
                                         </TouchableOpacity>
                                         <View style={{flex: 1, paddingHorizontal: 80}}>
-                                            <Text style={styles.itemText}>{item.date} Borrowed {item.name}</Text>
+                                            <Text style={styles.itemText}>{item.isActive ? "Return " : "New "}{item.date} Borrowed {item.name}</Text>
                                             <Text style={styles.itemText}>from {item.debtor_name}</Text>
                                         </View>
                                         <TouchableOpacity
@@ -230,7 +230,7 @@ class Notifications extends Component {
                                             <Text style={{fontSize: 30}}>+</Text>
                                         </TouchableOpacity>
                                         <View style={{flex: 1, paddingHorizontal: 80}}>
-                                            <Text style={styles.itemText}>{item.date} Lent {item.name}</Text>
+                                            <Text style={styles.itemText}>{item.isActive ? "Return " : "New "}{item.date} Lent {item.name}</Text>
                                             <Text style={styles.itemText}>to {item.debtor_name}</Text>
                                         </View>
                                         <TouchableOpacity
