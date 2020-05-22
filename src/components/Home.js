@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, Button, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import Monetary from "./Monetary";
@@ -227,7 +227,8 @@ class Home extends Component {
                     }}
                     onPress={this.refresh.bind(this)}
                 >
-                    <Text style={{fontSize: 30}}>R</Text>
+                    <Image source={require('../../assets/refresh.png')}
+                           style={{height: 35, width: 35}}/>
                 </TouchableOpacity>
                 {this.state.overlay === true &&
                 (<View style={styles.floatView}>
@@ -248,7 +249,8 @@ class Home extends Component {
                         }}
                         onPress={this.closeOverlay.bind(this)}
                     >
-                        <Text style={{fontSize: 30}}>X</Text>
+                        <Image source={require('../../assets/close.png')}
+                               style={{height: 35, width: 35}}/>
                     </TouchableOpacity>
                     <View style={{backgroundColor: 'white', padding: 40}}>
                         <Button color='black' title={"friends ".concat(this.state.friendNot.length).concat(" new")}

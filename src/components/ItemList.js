@@ -150,7 +150,8 @@ class ItemList extends Component {
                     }}
                     onPress={this.createNew.bind(this)}
                 >
-                    <Text style={{fontSize: 30}}>+</Text>
+                    <Image source={require('../../assets/add.png')}
+                           style={{height: 35, width: 35}}/>
                 </TouchableOpacity>
                 {this.state.layout === true &&
                 (<View style={styles.floatView}>
@@ -171,7 +172,8 @@ class ItemList extends Component {
                         }}
                         onPress={this.closeOverlay.bind(this)}
                     >
-                        <Text style={{fontSize: 30}}>X</Text>
+                        <Image source={require('../../assets/close.png')}
+                               style={{height: 35, width: 35}}/>
                     </TouchableOpacity>
                     <Item debt_id={this.state.choice}/>
                 </View>)

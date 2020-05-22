@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, Button, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import {FlatList, ActivityIndicator} from 'react-native';
@@ -120,7 +120,8 @@ class MonetaryList extends Component {
                     }}
                     onPress={this.createNew.bind(this)}
                 >
-                    <Text style={{fontSize: 30}}>+</Text>
+                    <Image source={require('../../assets/add.png')}
+                           style={{height: 35, width: 35}}/>
                 </TouchableOpacity>
                 {this.state.layout === true &&
                 (<View style={styles.floatView}>
@@ -141,7 +142,8 @@ class MonetaryList extends Component {
                         }}
                         onPress={this.closeOverlay.bind(this)}
                     >
-                        <Text style={{fontSize: 30}}>X</Text>
+                        <Image source={require('../../assets/close.png')}
+                               style={{height: 35, width: 35}}/>
                     </TouchableOpacity>
                     <Monetary debt_id={this.state.choice}/>
                 </View>)

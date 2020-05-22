@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, ScrollView, Button, StyleSheet, Text, TouchableOpacity, TextInput} from 'react-native';
+import {View, ScrollView, Button, StyleSheet, Text, TouchableOpacity, TextInput, Image} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import {FlatList, ActivityIndicator} from 'react-native';
@@ -89,7 +89,8 @@ class Friends extends Component {
                             }}
                             onPress={this.closeOverlay.bind(this)}
                         >
-                            <Text style={{fontSize: 30}}>X</Text>
+                            <Image source={require('../../assets/close.png')}
+                                   style={{height: 35, width: 35}}/>
                         </TouchableOpacity>
 
                         <View style={styles.buttonContainerStyle}>
@@ -121,7 +122,8 @@ class Friends extends Component {
                     }}
                     onPress={this.showOverlay.bind(this)}
                 >
-                    <Text style={{fontSize: 30}}>+</Text>
+                    <Image source={require('../../assets/add.png')}
+                           style={{height: 35, width: 35}}/>
                 </TouchableOpacity>}
             </View>
 

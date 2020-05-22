@@ -155,7 +155,8 @@ class Notifications extends Component {
                                             style={styles.accept}
                                             onPress={() => acceptMon(item)}
                                         >
-                                            <Text style={{fontSize: 30}}>+</Text>
+                                            <Image source={require('../../assets/accept.png')}
+                                                   style={{height: 35, width: 35}}/>
                                         </TouchableOpacity>
                                         <View style={{flex: 1, paddingHorizontal: 80}}>
                                             <Text style={styles.itemText}>{item.date} Borrowed {item.amount} PLN</Text>
@@ -165,7 +166,8 @@ class Notifications extends Component {
                                             style={styles.deny}
                                             onPress={() => deny(item)}
                                         >
-                                            <Text style={{fontSize: 30}}>-</Text>
+                                            <Image source={require('../../assets/close.png')}
+                                                   style={{height: 35, width: 35}}/>
                                         </TouchableOpacity>
                                     </View>)
                                     :
@@ -174,7 +176,8 @@ class Notifications extends Component {
                                             style={styles.accept}
                                             onPress={() => acceptMon(item)}
                                         >
-                                            <Text style={{fontSize: 30}}>+</Text>
+                                            <Image source={require('../../assets/accept.png')}
+                                                   style={{height: 35, width: 35}}/>
                                         </TouchableOpacity>
                                         <View style={{flex: 1, paddingHorizontal: 80}}>
                                             <Text style={styles.itemText}>{item.date} Lent {item.amount} PLN</Text>
@@ -184,7 +187,8 @@ class Notifications extends Component {
                                             style={styles.deny}
                                             onPress={() => deny(item)}
                                         >
-                                            <Text style={{fontSize: 30}}>-</Text>
+                                            <Image source={require('../../assets/close.png')}
+                                                   style={{height: 35, width: 35}}/>
                                         </TouchableOpacity>
                                     </View>)
                                 }
@@ -209,7 +213,8 @@ class Notifications extends Component {
                                             style={styles.accept}
                                             onPress={() => acceptItem(item)}
                                         >
-                                            <Text style={{fontSize: 30}}>+</Text>
+                                            <Image source={require('../../assets/accept.png')}
+                                                   style={{height: 35, width: 35}}/>
                                         </TouchableOpacity>
                                         <View style={styles.image}>
                                             {item.image ?
@@ -228,7 +233,8 @@ class Notifications extends Component {
                                             style={styles.deny}
                                             onPress={() => deny(item)}
                                         >
-                                            <Text style={{fontSize: 30}}>-</Text>
+                                            <Image source={require('../../assets/close.png')}
+                                                   style={{height: 35, width: 35}}/>
                                         </TouchableOpacity>
                                     </View>)
                                     :
@@ -237,7 +243,8 @@ class Notifications extends Component {
                                             style={styles.accept}
                                             onPress={() => acceptItem(item)}
                                         >
-                                            <Text style={{fontSize: 30}}>+</Text>
+                                            <Image source={require('../../assets/accept.png')}
+                                                   style={{height: 35, width: 35}}/>
                                         </TouchableOpacity>
                                         <View style={styles.image}>
                                             {item.image ?
@@ -256,7 +263,8 @@ class Notifications extends Component {
                                             style={styles.deny}
                                             onPress={() => deny(item)}
                                         >
-                                            <Text style={{fontSize: 30}}>-</Text>
+                                            <Image source={require('../../assets/close.png')}
+                                                   style={{height: 35, width: 35}}/>
                                         </TouchableOpacity>
                                     </View>)}
                             </View>
@@ -278,7 +286,8 @@ class Notifications extends Component {
                                         style={styles.accept}
                                         onPress={() => acceptFriend(item)}
                                     >
-                                        <Text style={{fontSize: 30}}>+</Text>
+                                        <Image source={require('../../assets/accept.png')}
+                                               style={{height: 35, width: 35}}/>
                                     </TouchableOpacity>
 
                                     <Text style={styles.itemText}>{item.username}</Text>
@@ -287,7 +296,8 @@ class Notifications extends Component {
                                         style={styles.deny}
                                         onPress={() => deny(item)}
                                     >
-                                        <Text style={{fontSize: 30}}>-</Text>
+                                        <Image source={require('../../assets/close.png')}
+                                               style={{height: 35, width: 35}}/>
                                     </TouchableOpacity>
 
                                 </View>
@@ -318,7 +328,8 @@ class Notifications extends Component {
                         }}
                         onPress={this.closeOverlay.bind(this)}
                     >
-                        <Text style={{fontSize: 30}}>X</Text>
+                        <Image source={require('../../assets/close.png')}
+                               style={{height: 35, width: 35}}/>
                     </TouchableOpacity>
 
                     {this.props.item === true &&
@@ -431,7 +442,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 10,
         width: '100%',
-        height: 50,
+        height: 100,
+        alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#282C35'
     },
