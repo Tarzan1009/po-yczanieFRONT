@@ -95,9 +95,6 @@ class LoginOrCreateForm extends Component {
                     <Text style={{ color: 'blue' }} onPress={() => Actions.register()}>
                         {' Sign-up'}
                     </Text>
-                    <Text style={{ color: 'blue' }} onPress={() => Actions.main()}>
-                        {' Home'}
-                    </Text>
                 </Text>
             );
         }
