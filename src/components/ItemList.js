@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, Button, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import {FlatList, ActivityIndicator} from 'react-native';
@@ -15,12 +15,9 @@ class ItemList extends Component {
 
 
     componentDidMount() {
-        if(this.props.user_id > 0)
-        {
+        if (this.props.user_id > 0) {
             this.getItemWith(this.props.user_id);
-        }
-        else
-        {
+        } else {
             this.getItem();
         }
     }
@@ -28,27 +25,35 @@ class ItemList extends Component {
     async getItem() {
         // const temp = this.getFriends();
         const item = await axios.get(`users/${global.userID}/item`);
-        for(let i = 0; i < item.data.length; i++){
+        for (let i = 0; i < item.data.length; i++) {
             let debtor = await axios.get(`users/${item.data[i].debtor}`);
             item.data[i].debtor_name = debtor.data.username;
             let creditor = await axios.get(`users/${item.data[i].creditor}`);
             item.data[i].creditor_name = creditor.data.username;
         }
-        this.setState({items: item.data.filter(function check(item){return item.isActive===true}),
-            loading: false});
+        this.setState({
+            items: item.data.filter(function check(item) {
+                return item.isActive === true
+            }),
+            loading: false
+        });
         //console.log(this.state);
     };
 
     async getItemWith(user_id) {
         // const temp = this.getFriends();
         const item = await axios.get(`users/${global.userID}/item/${user_id}`);
-        for(let i = 0; i < item.data.length; i++){
+        for (let i = 0; i < item.data.length; i++) {
             let debtor = await axios.get(`users/${item.data[i].debtor}`);
             item.data[i].debtor_name = debtor.data.username;
             let creditor = await axios.get(`users/${item.data[i].creditor}`);
             item.data[i].creditor_name = creditor.data.username;
         }
-        this.setState({items: item.data.filter(function check(item){return item.isActive===true}), loading: false});
+        this.setState({
+            items: item.data.filter(function check(item) {
+                return item.isActive === true
+            }), loading: false
+        });
         //console.log(this.state);
     };
 
@@ -73,12 +78,9 @@ class ItemList extends Component {
     }
 
     createNew() {
-        if(this.props.user_id > 0)
-        {
+        if (this.props.user_id > 0) {
             Actions.CreateItem({user_id: this.props.user_id});
-        }
-        else
-        {
+        } else {
             Actions.CreateItem();
         }
     }
@@ -107,6 +109,15 @@ class ItemList extends Component {
                             <View style={
                                 (item.debtor === global.userID) ? styles.itemin : styles.itemout
                             }>
+                                <View style={{paddingRight: 10}}>
+                                    {item.image ?
+                                        <Image source={{uri: item.image}}
+                                               style={{height: 80, width: 80}}/>
+                                        :
+                                        <Image source={require('../../assets/photo.png')}
+                                               style={{height: 80, width: 80}}/>
+                                    }
+                                </View>
                                 {(item.debtor === global.userID) ?
                                     (<View>
                                         <Text style={styles.itemText}>{item.date} Borrowed {item.name}</Text>
@@ -208,13 +219,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     itemout: {
+        flexDirection: 'row',
         flex: 1,
-        padding: 10,
+        alignItems: 'center',
+        height: 80,
         backgroundColor: 'red'
     },
     itemin: {
+        flexDirection: 'row',
         flex: 1,
-        padding: 10,
+        alignItems: 'center',
+        height: 80,
         backgroundColor: 'green'
     },
     itemText: {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, Button, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import {FlatList, ActivityIndicator} from 'react-native';
@@ -202,6 +202,7 @@ class Notifications extends Component {
                             <View style={
                                 (item.debtor === global.userID) ? styles.itemin : styles.itemout
                             }>
+
                                 {(item.debtor === global.userID) ?
                                     (<View>
                                         <TouchableOpacity
@@ -210,7 +211,16 @@ class Notifications extends Component {
                                         >
                                             <Text style={{fontSize: 30}}>+</Text>
                                         </TouchableOpacity>
-                                        <View style={{flex: 1, paddingHorizontal: 80}}>
+                                        <View style={styles.image}>
+                                            {item.image ?
+                                                <Image source={{uri: item.image}}
+                                                       style={{height: 80, width: 80}}/>
+                                                :
+                                                <Image source={require('../../assets/photo.png')}
+                                                       style={{height: 80, width: 80}}/>
+                                            }
+                                        </View>
+                                        <View style={{flex: 1, paddingLeft: 160, paddingRight: 80}}>
                                             <Text style={styles.itemText}>{item.isActive ? "Return " : "New "}{item.date} Borrowed {item.name}</Text>
                                             <Text style={styles.itemText}>from {item.debtor_name}</Text>
                                         </View>
@@ -229,7 +239,16 @@ class Notifications extends Component {
                                         >
                                             <Text style={{fontSize: 30}}>+</Text>
                                         </TouchableOpacity>
-                                        <View style={{flex: 1, paddingHorizontal: 80}}>
+                                        <View style={styles.image}>
+                                            {item.image ?
+                                                <Image source={{uri: item.image}}
+                                                       style={{height: 80, width: 80}}/>
+                                                :
+                                                <Image source={require('../../assets/photo.png')}
+                                                       style={{height: 80, width: 80}}/>
+                                            }
+                                        </View>
+                                        <View style={{flex: 1, paddingLeft: 160, paddingRight: 80}}>
                                             <Text style={styles.itemText}>{item.isActive ? "Return " : "New "}{item.date} Lent {item.name}</Text>
                                             <Text style={styles.itemText}>to {item.debtor_name}</Text>
                                         </View>
@@ -339,6 +358,12 @@ const styles = StyleSheet.create({
     btnTxtStyle: {
         fontWeight: 'bold'
     },
+    image: {
+        position: 'absolute',
+        left: 70,
+        top: 0,
+        alignSelf: 'flex-start'
+    },
     accept: {
         borderWidth: 1,
         borderColor: 'rgba(0,0,0,0.2)',
@@ -349,8 +374,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 25,
         position: 'absolute',
-        top: 0,
         left: 10,
+        top: 10,
         alignSelf: 'flex-start'
     },
     deny: {
@@ -363,8 +388,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 25,
         position: 'absolute',
-        top: 0,
         right: 10,
+        top: 10,
         alignSelf: 'flex-end'
     },
     titleText: {
@@ -383,6 +408,7 @@ const styles = StyleSheet.create({
         height: 100,
         width: '100%',
         backgroundColor: 'red',
+        alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
     },
@@ -392,6 +418,7 @@ const styles = StyleSheet.create({
         height: 100,
         width: '100%',
         backgroundColor: 'green',
+        alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
     },

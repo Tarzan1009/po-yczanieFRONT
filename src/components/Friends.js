@@ -64,7 +64,7 @@ class Friends extends Component {
                         renderItem={({item}) => (
                             <TouchableOpacity onPress={() => this.userClicked(item)}>
                                 <View style={styles.item}>
-                                    <Text style={styles.itemText}>{item.username}</Text><Text style={styles.itemSum}> {item.sum}zł</Text>
+                                    <Text style={styles.itemText}>{item.username}</Text><Text style={styles.itemSum}> {item.sum}PLN</Text>
                                 </View>
                             </TouchableOpacity>
                         )}

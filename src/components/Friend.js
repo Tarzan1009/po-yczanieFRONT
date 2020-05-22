@@ -51,28 +51,33 @@ class Friend extends Component {
                 {
                     debtor: global.userID,
                     creditor: this.state.friend.id,
-                    amount: this.state.friendSum
+                    amount: this.state.friendSum.sum
                 }).then(res => {
                 axios.post('proposition',
                     {
                         sender: global.userID,
                         receiver: this.state.creditor,
-                        item: this.props.debt_id
+                        monetary: res.data.id
+                    })
+                    .then(res => {
+                        Actions.pop();
                     })
             })
         } else {
             let resp = axios.post('monetary',
                 {
-                    debtor: global.userID,
-                    creditor: this.state.friend.id,
-                    amount: this.state.friendSum
+                    creditor: global.userID,
+                    debtor: this.state.friend.id,
+                    amount: -1 * (this.state.friendSum.sum)
                 }).then(res => {
                 axios.post('proposition',
                     {
                         sender: global.userID,
                         receiver: this.state.creditor,
-                        item: this.props.debt_id
-                    })
+                        monetary: res.data.id
+                    }).then(res => {
+                        Actions.pop();
+                })
             })
         }
     }

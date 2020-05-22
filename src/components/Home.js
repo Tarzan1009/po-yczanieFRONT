@@ -176,16 +176,16 @@ class Home extends Component {
                         {user.username}
                     </Text>
                     <Text style={styles.titleText}>
-                        Sum: {sum.sum}
+                        Sum: {sum.sum}PLN
                     </Text>
                     <Text style={styles.titleText}>
-                        Credits: {sumout.sum} Debts: {sumin.sum}
+                        Credits: {sumout.sum}PLN Debts: {sumin.sum}PLN
                     </Text>
                     <Text style={styles.titleText}>
-                        Items borrowed: {countin.count}
+                        Items:
                     </Text>
                     <Text style={styles.titleText}>
-                        Items lent: {countout.count}
+                        Borrowed: {countin.count} Lent: {countout.count}
                     </Text>
                 </View>
                 <View style={styles.buttonContainerStyle}>
