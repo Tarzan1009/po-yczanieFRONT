@@ -3,7 +3,7 @@ import {View, Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import {FlatList, ActivityIndicator} from 'react-native';
-import Item from "./Item.js";
+import Item from "./Item";
 import Monetary from "./Monetary.js";
 
 
@@ -109,7 +109,7 @@ class Notifications extends Component {
         const acceptItem = (item) => {
             let resp = axios.patch(`item/${item.id}`,
                 {
-                    isActive: true
+                    isActive: !item.isActive
                 });
             deny(item);
         };
@@ -198,7 +198,7 @@ class Notifications extends Component {
                 <FlatList
                     data={Item}
                     renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => choiceClicked(item)}>
+                        <TouchableOpacity /*onPress={() => choiceClicked(item)} throws errors for some reason*/>
                             <View style={
                                 (item.debtor === global.userID) ? styles.itemin : styles.itemout
                             }>

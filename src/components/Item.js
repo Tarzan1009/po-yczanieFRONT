@@ -15,6 +15,7 @@ class Item extends Component {
 
 
     async componentDidMount() {
+        console.log(this.props)
         const debt = await axios.get(`item/${this.props.debt_id}`);
         const debtor = await axios.get(`users/${debt.data.debtor}`);
         const creditor = await axios.get(`users/${debt.data.creditor}`);

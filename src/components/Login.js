@@ -4,6 +4,7 @@ import LoginOrCreateForm from './common/LoginOrCreateForm';
 
 
 class Login extends Component {
+
     render() {
         return (
             <View style={{ flex: 1 }}>

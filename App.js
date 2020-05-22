@@ -13,7 +13,7 @@ export default class App extends Component {
   UNSAFE_componentWillMount() {
     axios.defaults.baseURL = 'http://tarzan1009.pythonanywhere.com/api/';
     axios.defaults.timeout = 3000;
-    axios.defaults.headers.common = {'Authorization': `Token 847c235da1344af27c1be0851ecd1f3178c4ddd6`};
-    global.userID = 1;
+    //axios.defaults.headers.common = {'Authorization': `Token 65fd744de6dce368903724b1dc386efc82b48379`};
+    //global.userID = 1;
   }
 }

@@ -77,46 +77,47 @@ class Home extends Component {
 
     componentDidMount() {
         console.log(axios.defaults.headers.common.Authorization);
-        if(axios.defaults.headers.common.Authorization === null || axios.defaults.headers.common.Authorization === undefined){
+        if (axios.defaults.headers.common.Authorization === null || axios.defaults.headers.common.Authorization === undefined) {
             Actions.auth();
-        }
-        if(!(global.userID>0)) {
+        } else if (!(global.userID > 0)) {
             axios.get('current_user').then(res => {
                 global.userID = res.data[0].id;
+            }).then(res => {
+                Actions.home();
             })
+        } else {
+            this.getSum();
+            this.getNotifications();
         }
-        this.getSum();
-        this.getNotifications();
-
     }
 
     getNotifications() {
         axios.get(`users/${global.userID}/proposition/receiver`).then(resp => {
             this.setState({
                 monNot: resp.data.filter(function checkM(item) {
-                    return (item.monetary>0 && item.isActive)
+                    return (item.monetary > 0 && item.isActive)
                 }),
                 itemNot: resp.data.filter(function checkM(item) {
-                    return (item.item>0 && item.isActive)
+                    return (item.item > 0 && item.isActive)
                 }),
                 assignNot: resp.data.filter(function checkM(item) {
-                    return (item.toAssign>0 && item.isActive)
+                    return (item.toAssign > 0 && item.isActive)
                 }),
                 friendNot: resp.data.filter(function checkM(item) {
-                    return (!(item.item || item.monetary || item.toAssign)>0 && item.isActive)
+                    return (!(item.item || item.monetary || item.toAssign) > 0 && item.isActive)
                 }),
                 overlay: (resp.data.filter(function checkM(item) {
-                        return (!(item.item || item.monetary || item.toAssign)>0 && item.isActive)
-                    }).length>0 ||
+                        return (!(item.item || item.monetary || item.toAssign) > 0 && item.isActive)
+                    }).length > 0 ||
                     resp.data.filter(function checkM(item) {
-                        return (item.item>0 && item.isActive)
-                    }).length>0 ||
+                        return (item.item > 0 && item.isActive)
+                    }).length > 0 ||
                     resp.data.filter(function checkM(item) {
-                        return (item.toAssign>0 && item.isActive)
-                    }).length>0 ||
+                        return (item.toAssign > 0 && item.isActive)
+                    }).length > 0 ||
                     resp.data.filter(function checkM(item) {
-                        return (item.monetary>0 && item.isActive)
-                    }).length>0)
+                        return (item.monetary > 0 && item.isActive)
+                    }).length > 0)
             });
         })
 
@@ -151,8 +152,7 @@ class Home extends Component {
     }
 
     refresh() {
-        this.getSum();
-        this.getNotifications();
+        this.componentDidMount();
     }
 
     closeOverlay() {
@@ -164,6 +164,7 @@ class Home extends Component {
         const {ContainerStyle} = styles;
         const {btnTxtStyle} = styles;
         const {sum, sumout, sumin, countout, countin, user} = this.state;
+        const notif = this.state.friendNot.length + this.state.monNot.length + this.state.itemNot.length + this.state.assignNot.length;
 
         return (
             <View style={ContainerStyle}>
@@ -191,7 +192,7 @@ class Home extends Component {
                     {/*<Button color='black' title="Log"*/}
                     {/*        onPress={this.consoleLog.bind(this)}/>*/}
                     {/*<View><Text/></View>*/}
-                    <Button color='black' title={"Notifications ".concat(this.state.friendNot.length+this.state.monNot.length+this.state.itemNot.length+this.state.assignNot.length).concat(" new")}
+                    <Button color='black' title={"Notifications ".concat(notif).concat(" new")} disabled={!(notif > 0)}
                             onPress={this.checkNot.bind(this)}/>
                     <View><Text/></View>
                     <Button color='black' title="friends"
@@ -203,8 +204,8 @@ class Home extends Component {
                     <Button color='black' title="items"
                             onPress={this.item.bind(this)}/>
                     <View><Text/></View>
-                    <Button color='black' title="Logout" disabled
-                        onPress={this.handleRequest.bind(this)}
+                    <Button color='black' title="Logout"
+                            onPress={this.handleRequest.bind(this)}
                     />
 
 

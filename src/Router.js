@@ -15,6 +15,7 @@ import Notifications from "./components/Notifications";
 import Assignments from "./components/Assignments";
 import Assignment from "./components/Assignment";
 import Assign from "./components/Assign";
+import Start from "./components/Start";
 
 
 const RouterComponent = () => {
@@ -23,10 +24,28 @@ const RouterComponent = () => {
         <Router>
             <Stack hideNavBar key="root">
                 <Stack
+                    key="start"
+                    type="reset"
+                    titleStyle={style.titleStyle}
+                >
+                    <Scene
+                        title="Start"
+                        key="start"
+                        component={Start}
+                        initial
+                    />
+                </Stack>
+                <Stack
                     key="main"
                     type="reset"
                     titleStyle={style.titleStyle}
                 >
+                    <Scene
+                        title="Home"
+                        key="home"
+                        component={Home}
+                        initial
+                    />
                     <Scene
                         title="Home"
                         key="home"
